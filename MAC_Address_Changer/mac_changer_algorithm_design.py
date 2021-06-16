@@ -14,13 +14,31 @@ def get_arguments():
 		parser.error("[-] Please specify a new mac, use --help for more information.")
 	return options
 
-
 def change_mac(interface, new_mac):
 	print("[+] Change MAC Address for " + interface + " to" + new_mac)
 	subprocess.call(["ifconfig", interface, "down"])
 	subprocess.call(["ifconfig", interface, "hw", "ether", new_mac])
 	subprocess.call(["ifconfig", interface, "up"])
 
+def get_current_mac(interface):
+	ifconfig_result = subprocess.check_output(["ifconfig", options.interface])
+	mac_search = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", str(ifconfig_result))
+
+	if mac_search:
+		print(mac_search.group(0))
+	else:
+		print("[-] Could not read MAC adress")
+
 
 options = get_arguments()
-change_mac(options.interface, options.new_mac)
+current_mac = get_current_mac(options.interface)
+print("Current MAC = " + str(current_mac))
+
+change_mac = change_mac(options.interface, options.new_mac)
+
+current_mac = get_current_mac(options.interface)
+
+if current_mac == options.new_mac:
+	print("[+] MAC address was successfully changed to " + current_mac)
+else:
+	print("[-] MAC address did not change")
