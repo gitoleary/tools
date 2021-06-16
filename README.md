@@ -8,4 +8,4 @@ Programs created:
 * Network Scanner
 * ARP Spoofer
 * Packet Sniffer
-* DNA Spoofer
+* DNS Spoofer

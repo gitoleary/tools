@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+#sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward' IP forwarding
+
 import scapy.all as scapy
 import time
 
